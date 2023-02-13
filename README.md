@@ -209,5 +209,127 @@ Signoff involves-
 </p>
 </details>
 
+<details><summary><h2> 📖 L3 - OpenLANE & Strive Chiplets  </h2></summary><p>
+
+Using open source EDA tools presents a set of potential problems such as tool qualification, calibration, or missing tools for certain intermediate steps.
+OpenLANE encounters this problem by presenting an Open-Source Flow for a True Open Source Tape-out experiment. 
+
+An example of open everything SoCs is striV3. It makes use of open pdk, EDA tools as well as RTL. 
+
+![image](https://user-images.githubusercontent.com/57150778/218457206-f20b49b0-c61e-474c-b614-d288fee14021.png)
+
+Its SoC are present in various versions as described below:
+	
+![image](https://user-images.githubusercontent.com/57150778/218457450-010732c8-3932-4bc8-ba44-c1980f2af094.png)
+
+	
+The main objective of an open source EDA FLow is to produce a clean GDSII with no human intervention. This implies:
+
+* No LVS Violations
+* No DRC Violations
+* No Timing Violations
+
+OpenLANE presents a containersed set of tools that are containerized to function out of the box. It has two modes of operation:
+
+* Autonomous
+* Interactive
+	
+It can also be used for finding the best set of flow configurations for a particular design.
+	
+</p>
+</details>
+
+<details><summary><h2> 📖 L4 - Introduction to OpenLANE detailed ASIC Design Flow </h2></summary><p>
+
+OpenLANE ASIC Flow : 
+![OpenLANE ASIC Flow](https://user-images.githubusercontent.com/57150778/218458792-20a4b5e4-7e34-4f43-b772-46b8921b07e8.png)
+
+
+<h3> RTL Synthesis </h3>
+	
+RTL is fed to yosys using design constraints. Yosys translates the RTL into a logic circuit using generic components.
+This circuit is optimised and mapped into a standard cell library using abc. ABC has to be guided using abc scripts.
+OpenLANE comes with various abc scripts referred to as "synthesis strategies". The strategies target the best area or could target the best timing, etc.
+
+<h3> Synthesis Exploration (Utility) </h3>
+	
+Used to generate reports that show how the design delay and area is affected by the synthesis strategy (S1, S2, …S8). Based on this, we can pick the best strategy to continue with. 
+
+![image](https://user-images.githubusercontent.com/57150778/218459424-8bcb6fbc-f96f-4aeb-9118-1c6949088772.png)
+
+
+<h3> Design Exploration (Utility) </h3>
+	
+Used to sweep design configurations (>16). It generates a report as shown below that has more than 35 design metrics. Also shows the number of violations generated after generating the final layout. 
+This is useful to find the best configuration for openLANE for any given design. Thus it is recommended to explore the design first and then used the obtained best configuration for this design going forward.
+Ex : Exploration to find a configuration that gets a clean layout.
+
+
+![image](https://user-images.githubusercontent.com/57150778/218459824-daa5b467-466a-4a04-b979-380a829ddabb.png)
+
+
+<h3> Design For Testing </h3>
+
+After synthesis we can insert a testing structure is we want our design to be ready for testing after fabrication. We can insert a scan chain using open src project Fault. It can perform:
+
+* Scan insertion
+* Automatic test Pattern Generation (ATPG)
+* Test Patterns COmpaction
+* Fault Coverage
+* Fault Simulation
+
+![image](https://user-images.githubusercontent.com/57150778/218460233-ea5be554-235f-4896-a62f-8c5eadfe271e.png)
+
+	
+<h3> Physical Implementation </h3>
+	
+It is also called automated PnR (Place and Route). It has several steps performed by the OpenROAD App.
+* Floor/Power Planning
+* End Decoupling Capacitors and Tap cell insertion
+* Placement : Global and Detailed
+* Post placement Optimization
+* Clock Tree Synthesis (CTS)
+* Routing : Global and Detailed
+	
+
+<h3> Logic Equivalence Checking | by Yosys </h3>
+	
+Every time a netlist is modified by CTS, post route optimization, etc; it must be checked for funtionality against the gate level netlist post synthesis.
+	
+	
+<h3> Dealing with Antenna Rules Violation </h3>
+	
+A fabricated metal wire connected to transistor gates acts as an antenna. Charge can accumulate on it and can damage transistor gate during fabrication. To address this, the length of the wires must be limited. This is ensured by the router. However, if the router fails, there are two solutions : 
+	
+1) Bridging : Attatchign a higher intermediary layer
+	
+![image](https://user-images.githubusercontent.com/57150778/218462046-f78a338a-1eaa-4665-a191-db4a44164f75.png)
+
+2) Adding Antenna diode cell to leak away charges
+	
+![image](https://user-images.githubusercontent.com/57150778/218462377-3f6ff250-d9b5-4a6f-a049-90d9e3087740.png)
+
+As a preventative approach, OpenLANE adds a fake antenna diode next to all cells after placement. Antenna checks are done post routing (Magic). Finally, the fake antenna cells next to violating instance pins are replaced with real antenna cells from the SCL. 
+	
+![image](https://user-images.githubusercontent.com/57150778/218463312-fac9b846-9c9b-4b80-b792-aa142479170d.png)
+
+	
+<h3> SignOff </h3>
+	
+SignOff involves STA, DRC and LVS checks.
+
+Timing Signoff is done by performing RC extraction to generate spef file. Then, STA is done using OpenSTA to generate timing reports.
+
+![image](https://user-images.githubusercontent.com/57150778/218463959-af2c8a36-c684-441a-a90f-3732bdea81f7.png)
+	
+	
+DRC is perfomed in magic. LVS checks are performed in Netgen and Magic.
+	
+	
+	
+</p>
+</details>
+	
+	
 </p>
 </details>

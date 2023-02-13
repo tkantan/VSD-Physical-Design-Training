@@ -1,4 +1,4 @@
-# VSD Physical Design Summary | Kanika Taneja
+# VSD Physical Design Summary | Documentation
 <details><summary> <h1> D1_SK1 - How to talk to computers </summary><p>
 
 
@@ -329,7 +329,121 @@ DRC is perfomed in magic. LVS checks are performed in Netgen and Magic.
 	
 </p>
 </details>
-	
+
+</p>
+</details>
+
+
+<details><summary><h1> D1-SK3 - Get familiar to open-source EDA tools  </h1></summary><p>
+<details><summary><h2> :computer: L1 - OpenLANE Directory structure in detail </h2></summary><p>
+
+Working dir : 
+
+![image](https://user-images.githubusercontent.com/57150778/218501720-dd6a2e5e-a965-4620-9926-41837ffa2314.png)
+
+
+
+![image](https://user-images.githubusercontent.com/57150778/218501794-855f4a1a-8866-45c4-a727-b34393be8e32.png)
+
+skywater-pdk : has all pdk related files - tech lef, tech files, std cell lefs, etc; made to work with commercial EDA tools.
+
+open_pdks : It has a set of scripts and files to convert foundry level pdk to be compatible with open source EDA tools. 
+
+sky130A : PDK variant made compatible to open source environment.
+
+![image](https://user-images.githubusercontent.com/57150778/218515570-11530b38-b588-4e60-b6b2-dffaff619760.png)
+![image](https://user-images.githubusercontent.com/57150778/218516877-6ee3ceca-89c2-46ed-a33d-b41e87738373.png)
+
+Similarly, std cell lef and tech lef are present in:
+![image](https://user-images.githubusercontent.com/57150778/218518481-aa224e8e-87b5-4314-b380-c63ea0cd0030.png)
+
+work dir : 
+
+![image](https://user-images.githubusercontent.com/57150778/218501861-fd5e6c65-e2e6-4640-a747-548ca08ab4ad.png)
+
 	
 </p>
 </details>
+
+
+<details><summary><h2> :computer: L2 - Design Preparation Step </h2></summary><p>
+
+In the work directory openlane/designs many designs are present. The current design is picorv32A.
+
+![image](https://user-images.githubusercontent.com/57150778/218528721-fa5f883b-28a3-473f-b5f2-622ed2cb680b.png)
+
+The src directory consists of rtl netlist for the design and sdc file.
+
+![image](https://user-images.githubusercontent.com/57150778/218530365-66ba4807-0614-4d84-a3f9-e9e933aaf039.png)
+
+sdc file contents : The target clock period for the design is 20ns (50 MHz)
+
+![image](https://user-images.githubusercontent.com/57150778/218530684-10c8bc4b-30d7-4cd8-aca2-e1a3443c5e6b.png)
+
+config.tcl overrides default switches of openlane flow:
+
+![image](https://user-images.githubusercontent.com/57150778/218531097-d94e1a30-582b-4d74-97a2-08fa649b5057.png)
+
+The settings in sky130_fd_sc_hd_config.tcl override the switches in config.tcl such that the final clock period setting is 24.73 ns.
+
+![image](https://user-images.githubusercontent.com/57150778/218532159-617bc5b9-b0ae-4d4f-abb0-4379174b4794.png)
+
+<h3> Design Preparation </h3>
+
+![image](https://user-images.githubusercontent.com/57150778/218534533-54cef366-b7c2-40c7-b29b-36aba797a1b6.png)
+
+
+</p>
+</details>
+
+<details><summary><h2> :computer: L3 - Review Files After Design prep and run synthesis </h2></summary><p>
+
+All the input lefs are merged into one file using mergeLef.py. The resultant merged.lef is present in:
+
+![image](https://user-images.githubusercontent.com/57150778/218534885-4e97a7f0-2e91-4764-bd95-edf3c1c6598c.png)
+
+The output config file containing all the switches applied is also present in the runs/<timestamp> directory:
+
+![image](https://user-images.githubusercontent.com/57150778/218542857-2fa831d4-a522-4ce9-806a-bd3d69254825.png)
+
+The cmds.tcl file contains commands run in the tool:
+
+![image](https://user-images.githubusercontent.com/57150778/218542959-c8e43e54-dc2e-45dc-93eb-7b072804d136.png)
+
+<h3> run_synthesis </h3>
+
+![image](https://user-images.githubusercontent.com/57150778/218543049-b500a557-f3ab-4f73-95b6-889bf1d8683a.png)
+
+
+</p>
+</details>
+
+<details><summary><h2> :computer: L5 - Steps to characterize synthesis results </h2></summary><p>
+
+The resultant synthesized gate netlist and the mapped lef file are present in the runs/13-02_17-46/results/synthesis dir:
+
+![image](https://user-images.githubusercontent.com/57150778/218543575-095518b9-93f4-486f-a4f1-3cdb521a2629.png)
+
+synthesized netlist : 
+
+![image](https://user-images.githubusercontent.com/57150778/218545405-7d262cca-6de3-40a5-a1bf-56dddc506b11.png)
+
+The cell stats and timing reports can be seen in runs/13-02_17-46/reports/synthesis dir:
+
+![image](https://user-images.githubusercontent.com/57150778/218543757-0cccd44a-87d6-4498-8e21-0459ef4e4972.png)
+
+The cell stats are present in 1-yosys_4.stat.rpt
+
+![image](https://user-images.githubusercontent.com/57150778/218545105-b2333545-b793-4a99-8bd0-ebd0dfe6d727.png)
+
+The timing status post synthesis can be seen in 2-opensta.timing.rpt.The worst paths are reported in a descending order or negative slack.
+
+![image](https://user-images.githubusercontent.com/57150778/218545476-02550855-cb17-49c5-8453-defd056edcc3.png)
+
+</p>
+</details>
+
+</p>
+</details>
+
+

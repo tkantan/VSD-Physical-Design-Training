@@ -393,6 +393,7 @@ The settings in sky130_fd_sc_hd_config.tcl override the switches in config.tcl s
 ![image](https://user-images.githubusercontent.com/57150778/218534533-54cef366-b7c2-40c7-b29b-36aba797a1b6.png)
 
 
+
 </p>
 </details>
 
@@ -439,6 +440,15 @@ The cell stats are present in 1-yosys_4.stat.rpt
 The timing status post synthesis can be seen in 2-opensta.timing.rpt.The worst paths are reported in a descending order or negative slack.
 
 ![image](https://user-images.githubusercontent.com/57150778/218545476-02550855-cb17-49c5-8453-defd056edcc3.png)
+
+Since the timing is violated for setup, synthesis is performed again by increasing target clock_period to 50. 
+
+![image](https://user-images.githubusercontent.com/57150778/219638404-ac9b9929-67cf-474d-bca1-97c1eaefd3ba.png)
+
+The new timing rpt for max path is shown below:
+
+![image](https://user-images.githubusercontent.com/57150778/219643149-17393532-7176-4162-a0dc-db67b7ac4d7a.png)
+
 
 </p>
 </details>

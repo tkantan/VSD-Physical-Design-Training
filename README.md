@@ -631,7 +631,79 @@ Information about all the available switches is present in README.md:
 
 ![image](https://user-images.githubusercontent.com/57150778/219656292-5a294f12-f695-4133-a909-798c1a97f559.png)
 
+floorplan.tcl in configuration/ contains all the switches applied:
 
+![image](https://user-images.githubusercontent.com/57150778/219657567-9e89c978-e5c2-4fff-aba9-f596ae1da759.png)
+
+![image](https://user-images.githubusercontent.com/57150778/219658100-9afde7ff-e1ce-45af-9337-e0f5c7e2f8c6.png)
+
+Running floorplan in OpenLANE:
+
+![image](https://user-images.githubusercontent.com/57150778/219659187-bb008a0a-c630-4d92-8726-e949418568be.png)
+
+	
+</p>
+</details>
+
+<details><summary><h2> 💻: L7 - Review floorplan files and steps to view floorplan </h1></summary><p>
+
+The core and die_area can be viewed in reports:
+
+![image](https://user-images.githubusercontent.com/57150778/219694028-d4d6036d-9eaa-48a0-b9f1-ae03b00e4a09.png)
+
+Floorplan def contents:
+	
+1) Die Area and std cell rows:
+	
+<img src="https://user-images.githubusercontent.com/57150778/219695202-aa1882b6-00a9-43bd-bf75-633a3daa4b43.png" width=500>
+	
+2) Tracks for metal routes
+
+<img src="https://user-images.githubusercontent.com/57150778/219695587-18536270-d04c-4b5e-a8a3-ea6ab15f0402.png" width=400>
+	
+3) Std cells - unplaced
+
+<img src="https://user-images.githubusercontent.com/57150778/219695822-dea8f3d0-1d19-4543-900a-b414f0ec4730.png" width=350>
+
+4)  Decaps and tap cells placed and fixed:
+
+<img src="https://user-images.githubusercontent.com/57150778/219696270-5f613771-7934-44ad-82fc-7e5e3b38b675.png" width=450>
+	
+5) Placed IO Pins
+
+![image](https://user-images.githubusercontent.com/57150778/219697054-957aeaa1-a496-4cf5-8014-6411d1857e90.png)
+
+6) Signal nets with logical connectivity-
+	
+![image](https://user-images.githubusercontent.com/57150778/219697356-7b2067dc-f967-44ec-a3b4-57e09cb05482.png)
+
+The finally applied switche for core utilization, and horizontal and vertical metals for IO pins can be viewed in config.tcl:
+	
+![image](https://user-images.githubusercontent.com/57150778/219699348-e55e1acb-6d53-4396-929a-bde9c553626f.png)
+
+	
+</p>
+</details>
+
+<details><summary><h2> 💻: L8 - Review floorplan layout in magic </h1></summary><p>
+
+Launching magic to view floorplan:
+
+![image](https://user-images.githubusercontent.com/57150778/219699843-5c4d0c79-e770-46f0-9545-3709257b524d.png)
+
+Reviewing Floorplan:
+
+![image](https://user-images.githubusercontent.com/57150778/219704015-5ebf2e70-0a17-4bd1-831f-e69268d91e1c.png)
+
+Zooming in to show pin placement and tap cell:
+
+![image](https://user-images.githubusercontent.com/57150778/219708342-7f5601a3-7392-4ac7-b677-ebdcbbb9b0c0.png)
+
+Decap cell :
+
+![image](https://user-images.githubusercontent.com/57150778/219708858-f6882720-0a38-4300-8344-5c924e693685.png)
+
+	
 </p>
 </details>
 

@@ -677,7 +677,7 @@ Floorplan def contents:
 	
 ![image](https://user-images.githubusercontent.com/57150778/219697356-7b2067dc-f967-44ec-a3b4-57e09cb05482.png)
 
-The finally applied switche for core utilization, and horizontal and vertical metals for IO pins can be viewed in config.tcl:
+The finally applied switches for core utilization, and horizontal and vertical metals for IO pins can be viewed in config.tcl:
 	
 ![image](https://user-images.githubusercontent.com/57150778/219699348-e55e1acb-6d53-4396-929a-bde9c553626f.png)
 
@@ -693,20 +693,336 @@ Launching magic to view floorplan:
 
 Reviewing Floorplan:
 
-![image](https://user-images.githubusercontent.com/57150778/219704015-5ebf2e70-0a17-4bd1-831f-e69268d91e1c.png)
+![image](https://user-images.githubusercontent.com/57150778/219724780-adc88d8a-5c92-4a41-b7dc-02b868732050.png)
 
-Zooming in to show pin placement and tap cell:
+Zooming in to show pin placement, decap cells and tap cells. All the logic cells are unplaced.
 
-![image](https://user-images.githubusercontent.com/57150778/219708342-7f5601a3-7392-4ac7-b677-ebdcbbb9b0c0.png)
 
-Decap cell :
-
-![image](https://user-images.githubusercontent.com/57150778/219708858-f6882720-0a38-4300-8344-5c924e693685.png)
+![image](https://user-images.githubusercontent.com/57150778/219726746-74989591-5ad7-4726-a484-0b7aa0b3f16d.png)
 
 	
 </p>
 </details>
 
+</p>
+</details>
+
+<details><summary><h1> D2_SK2 - Netlist Binding and placement </h1></summary><p>
+
+<details><summary><h2> :book: L1 - Netlist Bindign and initial place design </h2></summary><p>
+
+Binding netlist with physical cells
+
+All cells in the netlist are rectangular blocks, whose sizes, delays, functionality, etc are defined in the library.
+	
+<img src="https://user-images.githubusercontent.com/57150778/219709788-7c26d367-8fc7-4f57-bc5d-6bc0a29146c0.png" width=400>
+
+The library also has various flavors of the cells, which might be varying in sizes and delays because of having lower resistance paths.
+	
+<img src="https://user-images.githubusercontent.com/57150778/219709839-872ea2a9-c01e-4a6e-a42e-17b0c92947f5.png" width=500>
+
+	
+The obtained shapes and sizes of each gate are placed on the floorplan. Pre-placed cells are already present. It is taken care that pre-placed cells are not touched, and no other cells are placed in that area.
+Cells interacting to IO ports are placed close to them. Additionally, interacting gates are placed close to each other to minimize route lengths and thus signal delays. 
+
+<img src="https://user-images.githubusercontent.com/57150778/219710014-b579f973-b98d-4f58-ba78-8f29e7107f89.png" width=500>
+	
+</p>
+</details>
+
+<details><summary><h2> :book: L2 - Optimize placement using estimated wirelength and capacitance  </hs></summary><p>
+	
+Since some interacting cells are placed far away, we calculate the capacitances of estimated wire lengths. Long routes can read to loss of signal strength. Thus, to maintain signal integrity, we add repeaters in long routes. This increases the area of the floorplan.
+Higher the value of the wire cap, worse the slew since charge needed to charge the capacitor is high. 
+
+<img src="https://user-images.githubusercontent.com/57150778/219710457-94168a36-2391-4750-aaf8-eba82c0f3e3b.png" width=500>
+
+We need to optimize this to minimize the number of repeaters
+
+	
+</p>
+</details>
+	
+<details><summary><h2> :book: L3 - Final Placement Optimization  </hs></summary><p>
+	
+The repeaters reproduce the signal and send it to the required logic cell. Certain logic can be abutted to minimize signal delays, if the logic works at very high speed, etc. 
+
+<img src="https://user-images.githubusercontent.com/57150778/219710936-939da12f-ee29-443d-90db-2b286fe4082d.png" width=500>
+
+Once placement is optimized by adding buffers on long routes, since the clock tree has not been built, we need to check the setup timing analysis of data path. This assumes ideal conditions that all route delays and clock arrival time to flipflops are zero.  We need to make timing meet at this stage since routing would make the timing worse.
+
+	
+</p>
+</details>	
+
+<details><summary><h2> :book: L4 - Need for libraries and characterization  </hs></summary><p>
+	
+Synthesis is the first step in ASIC design flow in which we reproduce the functionality of an RTL using legal hardware. The next step is floor-planning. Here we decide the size of the core and die. This completely depends on area covered by the gates in the netlist and thus, depends on the shapes and sizes of standard cells. Next, during placement, we need to place the logic cells such that the initial timing is met. Next, during CTS, we need zero skew on clock pins across the entire design. Here we need clock buffers to ensure that clock signal has equal rise and fall times. Finally while routing, certain properties of the cells need to be taken care of and determine the type of routing. In signoff Static Timing Analysis, we need timing tables for all std cells. In all the steps, the properties of logic gates are important. These gates are collectively available in a library. Hence, library characterization is important.
+	
+	
+![image](https://user-images.githubusercontent.com/57150778/219711315-58055fa8-6c78-4e28-a133-74f39e4993d3.png)
+
+
+</p>
+</details>
+	
+<details><summary><h2> :computer: L5 - Congestion Aware Placement using RePlace  </h2></summary><p>		
+
+Placement in OpenLANE occurs in 2 stages  - 
+	
+1) Global Placement : This is a coarse placement and there is no legalization. Main objective is reducing the wirelength. The parameter used for this is HPWL (Half parameter wire length).
+	
+2) Detailed placement : The std cells placement is legalized.
+	
+In openLANE, there are different tools available to run both these steps. 
+Legalization implies that std cells should be exactly inside the rows and abutted with each other; and there should be no overlaps. Legalization is more required from a timing point of view. 
+
+In "run_placement", first global placement is run. 
+
+<img src="https://user-images.githubusercontent.com/57150778/219712069-88ab5a5b-50c6-46ac-b5ce-93135cb4bcce.png" width="300">
+
+The objective is to converge the "overflow". If the overflow value decreases, the placement is going correctly.
+
+Final placement stats:
+
+<img src="https://user-images.githubusercontent.com/57150778/219713458-8548aa43-c993-4a81-8d9f-4b86c743e627.png">
+
+Optimization of placement by buffer insertion, cell resizing:
+
+<img src="https://user-images.githubusercontent.com/57150778/219716128-0b4d3492-3df6-41bf-b13d-d879c514d493.png">
+
+Launching magic to view post placement def-
+
+<img src="https://user-images.githubusercontent.com/57150778/219715005-d187cfc8-c9a7-4b60-823d-78aa71977bd7.png">
+
+Magic Layout : 
+
+![image](https://user-images.githubusercontent.com/57150778/219719682-54e624f4-4552-4a3c-a7cf-2bef7090efd3.png)
+
+
+All the standard cells are placed in std cell rows. There are no DRCs.
+
+<img src="https://user-images.githubusercontent.com/57150778/219723388-5cf08c87-4053-4cbb-9df0-da2ebde86825.png" width=500>
+	
+PDN : Vpwr, Vgnd vertical stripes added in metal4 and horizontal stripes in metal5. Followpins present in metal1 and vias are stacked from metal1 to metal4.
+
+![image](https://user-images.githubusercontent.com/57150778/219720566-05f54d8e-0830-472a-95d6-52d271a9918b.png)
+
+<img src="https://user-images.githubusercontent.com/57150778/219721621-a705f4a6-3782-4557-85f8-b44182559e15.png" width=400>
+
+
+Placement Def showing tech via definitions and std cell placement added:
+
+<img src="https://user-images.githubusercontent.com/57150778/219717278-f07496a3-33a0-4977-83e4-c52897f84a37.png" width=600>
+
+Repeaters added for optimizing timing post placement:
+
+<img src="https://user-images.githubusercontent.com/57150778/219717467-58ca1d78-3b51-40b6-9443-cadae5808e73.png" width=600>
+
+PDN added :
+
+![image](https://user-images.githubusercontent.com/57150778/219717755-1f809efc-6e70-45e0-a43b-94243537a813.png)
+
+
+</p>
+</details>
+
+	
+</p>
+</details>
+
+<details><summary><h1> D2_SK3 Cell Design and Characterization Flows  </h1></summary><p>		
+
+	
+<details><summary><h2>:book: L1: Inputs for cell design flow </h2></summary><p>		
+
+Standard cell information is available in a library. A library also has information about decaps, macros, IPs, etc.
+The library also has cells with different functionality and sizes. The varying sizes are die to varying drive-strengths. 
+The cells may also vary in threshold voltages. This variation in threshold voltage determines the speed of the cell.
+	
+<img src="https://user-images.githubusercontent.com/57150778/219728804-be7fb654-45b9-4ae6-b274-63d7e3f3fa7e.png" width=500>
+	
+
+Cell Design Flow (Inverter Cell):
+
+Inputs : 
+
+1) Process Design Kits (PDKs)
+	
+2) DRC and LVS rules  :A few examples of DRC checks are shown below. These are needed specifications for the std cell to get fabricated. Actual value is the drawn value.
+	
+<img src="https://user-images.githubusercontent.com/57150778/219729006-e854dcd3-598d-417e-b275-fe381a32be37.png" width=600>
+
+	
+3) SPICE Models: The circled values are obtained from the foundry. These are spice model parameters. The spice model files are also provided by the foundry. 
+	
+<img src="https://user-images.githubusercontent.com/57150778/219729335-f85124a2-ca75-4cd1-9b0a-d89c8d77e268.png" width=500>
+	
+</p>
+</details>	
+	
+<details><summary><h2>:book: L2: Circuit Design Step </h2></summary><p>		
+
+Inputs to cell design flow:
+
+4) Library and User defined specs
+	
+The separation between, the power and ground rail determines the cell height. And it is up to the library developer to see that the cell height is maintained. Cell width depends on the timing information - wider cell have higher drive strengths. Higher drive strength cells can drive longer wires.
+Another user defined specification is supply voltage. The top level designer decides the supply voltage for a design and the library designer has to make sure that the std cells operate at this supply voltage. He has to take care of the noise margin levels with respect to this supply voltage.
+There can be specifications for metal layers for certain libraries (ex : certain libraries being needed to be built under certain metal layers, contacts to be present on M3,4,5,etc).
+Pin Locations might also have user defined specifications like being located near the power and ground rail. Library designer has to make sure of it.
+Drawn gate length can also be specified by the user. 
+	
+<img src="https://user-images.githubusercontent.com/57150778/219730122-339ac35d-c3e6-45bd-a34e-5b47ac3721db.png" width=300>
+
+	
+Design Steps:
+
+1) Circuit Design:
+	First step is to implement the function itself. The next step is to ensure that the cell meets the library requirement. For example, the (Wp/Lp) / (Wn/Ln) ratio is formulated as : 
+		
+<img src="https://user-images.githubusercontent.com/57150778/219730283-6f7e1c85-92b7-4c79-95ea-ddff6163002e.png" width=250>
+		
+We can have designated values of this ratio based on the required values of the switching threshold (Vm~0.98) specified by the designer. Switching threshold is the value at which Vin = Vout.
+Or, a library designer can have specifications such as drain current value. These are all circuit design steps, based on spice simulations. 
+The output of the circuit design step is the circuit description language : CDL.
+	
+
+</p>
+</details>
+
+<details><summary><h2>:book: L3: Layout Design Step </h2></summary><p>		
+
+Layout Design Step : 
+
+i) Implement the function by a set of transistor connections.
+ii) Derive the pmos network graph and the nmos network graph. 
+
+<img src="https://user-images.githubusercontent.com/57150778/219731284-b8733b8e-722c-4e63-af06-22b4653cb1d1.png" width=400>
+
+	
+iii) Obtain the Euler's path : Euler's path is the path that is being traced only once. In this case the Euler's path is A-C-E-F-D-B.
+iv) Next we draw a stick diagram out of this Euler's path where the polysilicon inputs are placed in the order of the Euler's path. And then the circuit connections are made.
+v) Next the stick diagram is converted to a layout while adhering to DRC rules from the foundry and user defined specifications given by the top level designer. 
+	
+![image](https://user-images.githubusercontent.com/57150778/219731469-c9d9a924-872f-41d0-8013-6f5789a90a59.png)
+
+	
+This hand drawn layout is loaded into a tool like Magic : 
+	
+<img src="https://user-images.githubusercontent.com/57150778/219731630-8abd526b-15db-47a0-b7dc-0562263631bd.png" width=350>
+	
+	
+With this final layout we have the cell height and width and other user defined specifications like drain current, pin locations, etc. 
+vi)  The final step is to extract the parasitics of this layout and characterize it in terms of timing. The output of the layout design will be GDSII, Lef files and extracted spice netlist (.cir), containing resistance and capacitance of each element in the layout.
+
+The next step is characterization of std cells to get timing, noise and power dotlibs. It also contains the functionality of the circuit. 
+
+	
+</p>
+</details>
+
+<details><summary><h2> :book: L4: Typical Characterization Flow </h2></summary><p>		
+
+For a characterization flow (of, say, a buffer cell), we have the following inputs : 
+1) Layout:
+	
+<img src="https://user-images.githubusercontent.com/57150778/219732755-1b309fcc-6a39-4068-80ec-9fe4afcaf1da.png" width=350>
+
+2) Circuit description : 
+
+![image](https://user-images.githubusercontent.com/57150778/219732979-ecaa0a67-4da7-443c-9c38-51b91c0ad13e.png)
+	
+3) Spice extracted netlist and subckt definitions. The subckt contains spice models containing characteristics of the nmos or pmos transistors-
+
+![image](https://user-images.githubusercontent.com/57150778/219733048-df75ce89-2697-471d-b702-c0172c2faa0c.png)
+	
+	
+Characterization Setup
+Step 1) Read the spice model files.
+Step 2) Read in the extracted spice netlist.
+Step 3)  Define the behavior of the buffer.
+Step 4) Read the subckt files of the inverter
+Step 5) Attach the necessary power sources.
+Step 6) Apply the stimulus.
+Step7 ) Provide necessary output capacitances. For ex, in NLDM models, the output capacitances are varied in a range. 
+Step 8) Provide the necessary simulation command. Ex: ."tran 10e-12 4e-09 0e-00", ".dc …."
+Step 9) All these inputs are fed as a configuration file called GUNA . The software generates timing, noise and power liberties. 
+	
+	
+</p>
+</details>
+	
+</p>
+</details>
+
+<details><summary><h1> D2_SK4 General timing characterization parameters </h1></summary><p>		
+<details><summary><h2> :book: L1: Timing threshold definitions </h2></summary><p>		
+
+Timing threshold definitions:
+These are variables pertaining to any input waveform that we apply:
+Consider the IP and OP waveforms of an inverter as shown
+• slew_low_rise_thr :  typically 20% - "low" implies values close to logic 0. The slope of rising waveform is calculated between slew_low_rise_thr and slew_high_rise_thr.
+• slew_high_rise_thr: Typically, 20% from the logic 1 level
+• slew_low_fall_thr :  20% from logic 0 level of a falling waveform
+• Slew_high_fall_thr : 20% value from logic 1 of a falling waveform
+ 
+![image](https://user-images.githubusercontent.com/57150778/219735528-24e75f72-7d52-426e-b3f3-b634436bf90e.png)
+
+	
+• in_rise_thr: Assume an input waveform used for transient simulation of  a buffer as shown. Propagation delay is defined between in_rise_thr and out_rise_thr for a rising waveform. It is typically 50%.
+• out_rise_thr : 50% value of the output rise waveform.
+	
+![image](https://user-images.githubusercontent.com/57150778/219735295-9bd9b6b9-fc92-475e-9d76-be6124b0a173.png)
+
+	
+• in_fall_thr :  Consider a fall waveform input to buffer and output waveform as shown. This value is typically 50%
+• out_fall_thr : Also, 50%. Fall delay = out_fall_thr - in_fall_thr
+	
+![image](https://user-images.githubusercontent.com/57150778/219735944-253afbe7-c74c-4e7b-9d62-e83126788738.png)
+
+	
+</p>
+</details>	
+	
+<details><summary><h2> :book: L2: Propagation delay and transition time </h2></summary><p>		
+
+Consider a buffer cell. Propagation delay, generally can be calculated as:
+Td = out_rise_thr - in_rise_thr
+Or,
+Td = out_fall_thr - in_fall_thr
+
+Consider the following waveform of an inverter:
+When the in_rise_thr and out_fall_thr are both at 50%, the delay comes out to be 23ps.
+
+![image](https://user-images.githubusercontent.com/57150778/219736870-455352e8-c718-482f-a35a-0603c8755a16.png)
+
+
+But when the thresholds are moved to say 70%, the output threshold arrives before the input and thus the propagation delay comes out to be negative (-42ps). Thus correct choice of threshold is very important. 
+
+![image](https://user-images.githubusercontent.com/57150778/219736938-9b0a8e04-13e4-485c-9226-f4a897cc6832.png)
+
+
+Propagation delay can also be negative when slew of the input waveform is very high due to high wire delays. This could happen if driver and receiver cells are placed far apart. Thus even with the right threshold, poor circuit design can lead to negative propagation delays. 
+
+
+![image](https://user-images.githubusercontent.com/57150778/219737100-45227d6e-ea38-4019-beb0-af9d203ac834.png)
+
+
+Timing characterization | Transition time
+
+For a rising w/f : 
+Transition time = time(slew_high_rise_thr) - time(slew_low_rise_thr)
+
+And for a falling w/f:
+Transition time = time(slew_high_fall_thr) - time(slew_low_fall_thr)
+
+![image](https://user-images.githubusercontent.com/57150778/219737208-8e5395f7-fb4c-43f6-8659-a20773d40faa.png)
+
+	
+</p>
+</details>
+	
 </p>
 </details>
 

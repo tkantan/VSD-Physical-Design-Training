@@ -1,4 +1,6 @@
 # VSD Physical Design Summary | Documentation
+<details><summary> <h1> D1 - Inception of open-source EDA, OpenLANE ans Sky130 PDK </summary><p>
+
 <details><summary> <h1> D1_SK1 - How to talk to computers </summary><p>
 
 
@@ -449,6 +451,186 @@ The new timing rpt for max path is shown below:
 
 ![image](https://user-images.githubusercontent.com/57150778/219643149-17393532-7176-4162-a0dc-db67b7ac4d7a.png)
 
+New cell stats : 
+	
+![image](https://user-images.githubusercontent.com/57150778/219644413-f7518fe5-0bbc-4d82-8596-cdbc410b2c64.png)
+
+area : 
+	
+![image](https://user-images.githubusercontent.com/57150778/219644786-a94a7a70-7d5e-494c-9813-e4b75ee65696.png)
+	
+	
+</p>
+</details>
+
+</p>
+</details>
+
+</p>
+</details>
+
+<details><summary><h1>D2 - Good floorplan vs bad floorplan and introduction to library cells</h1></summary><p>
+
+<details><summary><h1> D2-SK1 - Chip Floor planning Considerations </h1></summary><p>
+
+<details><summary><h2> :book: L1 - Utilization Factor and Aspect Ratio </h1></summary><p>
+
+1) Define width and height of core and die:
+First step of physical design flow is to define the width and height of the core and the die.
+
+<img src="https://user-images.githubusercontent.com/57150778/219647019-f9e03b89-7916-480d-ba27-91d2f7481272.png" width="450">
+
+Consider a basic netlist as shown : 
+	
+<img src="https://user-images.githubusercontent.com/57150778/219647202-c0c18d24-fc05-41d8-ac63-b5f48e52720d.png" width="350">
+			
+We use the physical dimensions of the std cells to calculate the total area occupied by the netlist on the silicon wafer.  For ex : min area occupied by the current netlist:
+	
+<img src="https://user-images.githubusercontent.com/57150778/219647401-6835ae82-95f9-4528-b556-554751e79702.png" width="250">
+
+Consider a silicon wafer with many dies. A die is a small semiconductor material specimen on which the fundamental circuit is fabricated. The die contains the core on which all digital logic is placed.
+
+<img src="https://user-images.githubusercontent.com/57150778/219648341-878d6791-d2fd-4df3-b93f-7cd9e0a38c8e.png" width="350">
+	
+Suppose we select the core area such that the netlist occupied the core completely (100% utilization).
+
+<img src="https://user-images.githubusercontent.com/57150778/219648277-902d44c8-1d27-4dab-81af-2cba7bc5df83.png" width="200">
+		
+Utilization Factor = (Area occupied by the netlist) / (Total area of the core)
+		
+In this case, the utilization factor = 1.
+Practically, we go for 50-60% utilization. U.F. = 0.5-0.6. The remaining area is left for optimization, placing additional cells, etc.
+		
+Aspect ratio = Height / Width
+				
+In this case, aspect ratio = 1, implying that the chip is a square shape.
+
+
+</p>
+</details>
+
+<details><summary><h2> :book: L2 - Concept of Pre-placed cells </h1></summary><p>
+
+1) Defining Locations of Pre Places Cells
+	
+	a. What are pre placed cells?
+		Consider some combinational logic cloud that translates to a large number of gates (50K-100K).
+		We need not implement this as a part of the main circuitry. We can implement is separately; or even granularize the circuit itself (dividing the 100K gates into two blocks each of 50K gates).
+
+<img src="https://user-images.githubusercontent.com/57150778/219649097-e6fea8df-ed5d-4061-8d1c-7670c018b5e8.png" width="500">
+
+<img src="https://user-images.githubusercontent.com/57150778/219649178-a151fe8e-eefb-48fa-b1c9-cfdac5d76c7e.png" width="300">
+
+We can now implement both these blocks independently. The IO pins are extended to the boundary and then we can Blackbox the two modules such that the internal circuitry is no longer visible.
+
+<img src="https://user-images.githubusercontent.com/57150778/219650594-e6f49c3e-2488-4622-a718-a1e431ba2b3e.png" width="450">
+
+<img src="https://user-images.githubusercontent.com/57150778/219650718-4dc8e988-cd29-4abf-a2b8-b1f04ab8f375.png" width="400">
+	
+These blocks when implemented separately, can be re-used in the top-level netlist multiple times.
+			
+Similarly IPs like memory, clock gating cell, comparator, mux, etc are available which can be implemented once and instantiated multiple times onto the netlist. 
+These cells are placed onto the chip and their placement is fixed before the actual placement of std cells. Thus these are referred to as Pre-Placed Cells.
+			 
+b. Defining placement of Pre-Placed Cells:
+	
+We look at the placement of IO pins for the entire block and the interaction of the blocks with the remaining core logic to decide where to fix the position of the pre-placed cells.
+
+<img src="https://user-images.githubusercontent.com/57150778/219650924-803af858-2216-49ff-bc4c-37a932de81f8.png" width="500">
+
+
+</p>
+</details>
+
+<details><summary><h2> :book: L3 - De-coupling Capacitors </h1></summary><p>
+
+Once the positions of pre-placed cells are fixed, we need to surround them with decoupling capacitance.
+	
+<h3>Need for decaps </h3>
+	
+When a logic cell switches, suppose it goes from 0 ->1, its internal capacitors need to be charged to represent logic 1. And this charge is provided by the supply voltage. Thus the VDD supply needs to supply the charge to all cells switching from logic 0 to logic 1.
+Similarly, the VSS is responsible to handle all the discharge current for cells switching from logic 1 to logic 0.
+But since there is a voltage drop across the power grid, the voltage that appears at std cells is lower (0.7 or 0.8 volts, say). Thus the internal capacitances cannot be charged to more than 0.8 volts. In order for this 0.8 volts to be detected as logic 1, it should be within the noise margin range of output logic. 
+
+<img src="https://user-images.githubusercontent.com/57150778/219651832-0103ae31-05b1-47a3-a12d-a090d4a6809d.png" width="500">
+
+<h3> Noise Margin </h3>
+For any signal to be detected as logic 1, it needs to lie between Vih and Voh range, and so on….
+		
+Vil to Vih is undefined region as a signal appearing in this range can convert to any logic level. This is an issue due to a large physical distance from the main power supply to the std cells under consideration.
+
+![image](https://user-images.githubusercontent.com/57150778/219652078-4c26d6fd-b871-4697-8478-180cdc2facd0.png)
+
+Decoupling Capacitors:
+	These are huge capacitors which are completely charged to the power supply. When the circuit switched, it can get the required current from the decoupling capacitor, since these are placed physically close to the logic circuitry and help to decouple the logic from power supply. 
+	The decaps replenish the charge when surrounding cells are not switching. 
+
+<img src="https://user-images.githubusercontent.com/57150778/219652229-524d13b7-cabd-4401-896f-adddfc64c9f3.png" width="500">
+
+Pre placed cells are thus surrounded by decaps.
+
+<img src="https://user-images.githubusercontent.com/57150778/219652318-9326b451-4053-4d71-b159-88c2266041d1.png" width="400">
+
+	
+</p>
+</details>
+
+	
+<details><summary><h2> :book: L4 - Power Planning </h1></summary><p>
+
+Decaps take care of local communication. For global communication, we need power planning. Suppose a macro o/p (16 bit bus) is input to another macro, where it is inverted. The goal is to ensure that the shape of the signal is maintained from the driver to the receiver.
+	
+<img src="https://user-images.githubusercontent.com/57150778/219652942-5fa64e7c-8819-49d2-9609-fcfa5e504d66.png" width="600">
+
+	
+All power lines are tapped to VDD and all ground lines are tapped to ground. Since we can't have many decaps placed all over the chip, the power supply needs to supply the power to retain the signal shape from driver to receiver. The power supply is distance from the signal line so there is possibility of <b>voltage drop</b>. Assuming the signal to be a 16 bit bus being inverted. Initially, each bit of the line is a capacitor charged to VDD or discharged to ground. When all VDD caps discharge to 0 and all caps at 0 charge to VDD; since we have a single ground line for all bits, we observe a bump in the voltage. If this bump voltage exceeds the noise margin, it may lead to undefined state. This phenomena is called <b>ground bounce</b>.
+	
+<img src="https://user-images.githubusercontent.com/57150778/219652991-ea961534-9516-4738-8dc1-f945c0fe6f2a.png" width=500>
+
+	
+Similarly when many caps charge at the same time through the same line, we may observe a voltage droop. This can also lead to an undefined state if it goes lower than noise margin. 
+	
+<img src="https://user-images.githubusercontent.com/57150778/219653122-47a28e6d-6644-40a7-9402-ac42adc4ea6e.png" width="500">
+
+	
+Both these problems arise since the power supply comes from only one point. This can be solved by having multiple power supplies to provide charging current and multiple ground lines to drain discharging current. This is a PG mesh.
+	
+<img src="https://user-images.githubusercontent.com/57150778/219653231-eac58bf8-7eb6-4d7d-a26a-47fc48963863.png" width="450">
+
+<img src="https://user-images.githubusercontent.com/57150778/219653334-a5969fca-6eba-4790-9d7f-c0d348429462.png" width="450">
+
+
+</p>
+</details>	
+
+<details><summary><h2> :book: L5 - Pin placement and logical cell placement blockage </h1></summary><p>
+
+Consider the following circuit where blocks a, b and c are preplaces cells. The connectivity information of different gates is available in the netlist. 
+	
+<img src="https://user-images.githubusercontent.com/57150778/219654331-089cac84-43fd-4ccb-a2f0-4aab4cf94a19.png" width="400">
+
+	
+Suppose we put all IP ports on left and OP ports on the left. The ordering of IP and OP ports depends on where we plan to place the cells. Pin placement needs good understanding of the functionality of the design. This creates a handshaking between the frontend and backend team. 
+	
+<img src="https://user-images.githubusercontent.com/57150778/219654443-bb9bfb95-4446-4713-bcb5-e61dd3d5ed77.png" width="400">
+	
+The clock ports are bigger than signal ports since these drive the flops in the complete chip continuously. Bigger ports offer lower resistance. 
+
+<h3>Logical Cell Placement Blockage:</h3>
+
+Next, we add a logical cell placement blockage in the area outside the core since this area  is reserved for IO pins.
+
+<img src="https://user-images.githubusercontent.com/57150778/219654549-e3afdd47-ff60-4206-97b4-3f0abf3a8201.png" width="400">
+
+</p>
+</details>
+
+<details><summary><h2> :computer: L6 Steps to run floorplan using OpenLANE </h1></summary><p>
+
+Information about all the available switches is present in README.md:
+
+![image](https://user-images.githubusercontent.com/57150778/219656292-5a294f12-f695-4133-a909-798c1a97f559.png)
+
 
 </p>
 </details>
@@ -456,4 +638,5 @@ The new timing rpt for max path is shown below:
 </p>
 </details>
 
-
+</p>
+</details>

@@ -963,20 +963,25 @@ Timing threshold definitions:
 These are variables pertaining to any input waveform that we apply:
 Consider the IP and OP waveforms of an inverter as shown
 • slew_low_rise_thr :  typically 20% - "low" implies values close to logic 0. The slope of rising waveform is calculated between slew_low_rise_thr and slew_high_rise_thr.
+
 • slew_high_rise_thr: Typically, 20% from the logic 1 level
+
 • slew_low_fall_thr :  20% from logic 0 level of a falling waveform
+
 • Slew_high_fall_thr : 20% value from logic 1 of a falling waveform
  
 ![image](https://user-images.githubusercontent.com/57150778/219735528-24e75f72-7d52-426e-b3f3-b634436bf90e.png)
 
 	
 • in_rise_thr: Assume an input waveform used for transient simulation of  a buffer as shown. Propagation delay is defined between in_rise_thr and out_rise_thr for a rising waveform. It is typically 50%.
+
 • out_rise_thr : 50% value of the output rise waveform.
 	
 ![image](https://user-images.githubusercontent.com/57150778/219735295-9bd9b6b9-fc92-475e-9d76-be6124b0a173.png)
 
 	
 • in_fall_thr :  Consider a fall waveform input to buffer and output waveform as shown. This value is typically 50%
+
 • out_fall_thr : Also, 50%. Fall delay = out_fall_thr - in_fall_thr
 	
 ![image](https://user-images.githubusercontent.com/57150778/219735944-253afbe7-c74c-4e7b-9d62-e83126788738.png)

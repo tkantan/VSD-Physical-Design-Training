@@ -1033,3 +1033,71 @@ Transition time = time(slew_high_fall_thr) - time(slew_low_fall_thr)
 
 </p>
 </details>
+
+
+<details><summary> <h1> D3 - Design Library cell using magic Layout and ngspice characterization </summary><p>
+
+<details><summary> <h1> D1_SK1 - Labs for CMOS inverter ngspice simulation </summary><p>
+
+<details><summary><h2> :computer: L0: IO Placer Revision </h2></summary><p>		
+
+OpenLANE allows changing settings at different stages iteratively. For ex, earlier we had equidistance pin placement. We can change that and run floorplan again as shown to get new IO placement:
+
+![image](https://user-images.githubusercontent.com/57150778/221815459-680bf82b-4f45-4f15-8aea-d2490afcaf5b.png)
+
+The resultant pin placement when viewed in magic are as shown - stacked one on top of another (Hungarian Algorithm).
+Thus we can reset variables and run steps again in OpenLANE flow.
+
+![image](https://user-images.githubusercontent.com/57150778/221815533-45b657bd-0a5e-400f-bac2-9b11095948c2.png)
+
+The pins are seen to be cramped in lower left corner instead of being placed uniformly across IO ring.
+
+![image](https://user-images.githubusercontent.com/57150778/221815630-2aeb4aff-49b1-42a9-8251-87dcfd130e54.png)
+
+
+</p>
+</details>
+
+
+<details><summary><h2> :book: L1: Spice deck creation for CMOS inverter </h2></summary><p>		
+
+Create spice deck:
+
+A spice deck has connectivity information (like a netlist). It has inputs to be provided for simulation and points at which output is tapped. Pmos and nmos are denoted with the arrow to substrate instead of the bubble because in spice deck, we need to define connections with the substrate as well. Generally a lot of calculations go into finding the value of the load capacitor. But here we assume a constant value since we are only looking at the static behavior.  The W/L values of pmos and nmos are as defined. Typically, pmos is taken to be (2x or 3x) wider than nmos. 
+	
+Component Values: The output load value is taken to be 10fF. This is actually computed load capacitance. We take the input gate voltage as 2.5V.  Usually this value is taken to be a multiple of the channel length. (Channel length 1u => Voltage 1V). Drain or main supply voltage is also taken to be 2.5V. 
+	
+Identify nodes: Nodes are potential points surrounding each element as shown (blue). All the active and passive elements are surrounded by nodes at each terminal. The nodes are names as in, out, vdd and 0.
+
+![image](https://user-images.githubusercontent.com/57150778/221838005-9705e324-3056-4fb9-86ba-fb0cdc114100.png)
+
+
+</p>
+</details>
+
+<details><summary><h2> :book: L2: Spice simulation lab for CMOS inverter </h2></summary><p>		
+
+The spice deck is as shown. We sweep the input voltage from 0 to 2.5 in steps of 0.05 in a dc simulation. Finally the model file is described, containing technology definition of pmos and nmos.
+
+<img src="https://user-images.githubusercontent.com/57150778/221838645-e2aab61c-9dc3-4801-9c69-23ba0b073b17.png" width=600>
+
+Spice simulation specs : 
+
+<img src="https://user-images.githubusercontent.com/57150778/221838830-8a43b9e9-960b-4b17-8896-2833150612a4.png" width=400>
+
+Model file: contains technological parmeters with respect to nmos, pmos
+
+<img src="https://user-images.githubusercontent.com/57150778/221839237-6bae9c64-8fb1-4560-b0e2-eed90c888b10.png" width=450>
+
+
+
+
+</p>
+</details>
+
+</p>
+</details>
+
+</p>
+</details>
+

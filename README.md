@@ -1075,7 +1075,7 @@ Identify nodes: Nodes are potential points surrounding each element as shown (bl
 </p>
 </details>
 
-<details><summary><h2> :book: L2: Spice simulation lab for CMOS inverter </h2></summary><p>		
+<details><summary><h2> :computer: L2: Spice simulation lab for CMOS inverter </h2></summary><p>		
 
 The spice deck is as shown. We sweep the input voltage from 0 to 2.5 in steps of 0.05 in a dc simulation. Finally the model file is described, containing technology definition of pmos and nmos.
 
@@ -1089,8 +1089,228 @@ Model file: contains technological parmeters with respect to nmos, pmos
 
 <img src="https://user-images.githubusercontent.com/57150778/221839237-6bae9c64-8fb1-4560-b0e2-eed90c888b10.png" width=450>
 
+Launch ngspice; go to run area and source the circuit file:
+
+<img src="https://user-images.githubusercontent.com/57150778/222346675-0076b589-5f2f-4877-a10b-8fcc5f0c6ccc.png" width=400>
+
+Execute the circuit using run command. setplot shows which characteristics are run. 
+
+<img src="https://user-images.githubusercontent.com/57150778/222346931-0c6604ac-0438-4029-8810-5a7e4ea0d091.png" width=400>
+
+Run "display" to check the node voltages currently present. Next, run "plot out vs in"
+
+<img src="https://user-images.githubusercontent.com/57150778/222347174-ed37d78a-8627-4751-b207-76aa937c0499.png" width=400>
+
+The characteristics are not centrally aligned and are slightly to the left.
+
+<img src="https://user-images.githubusercontent.com/57150778/222347376-5f6431a7-3b7f-4e05-843c-84859b908c8c.png" width=400>
+
+Consider another case where pmos width = 2.5x nmos width:
+
+<img src="https://user-images.githubusercontent.com/57150778/222347484-4d44e358-9a94-46b1-9b12-409567cb8ff8.png" width=350>
+
+The spice deck for this specification is as shown:
+
+<img src="https://user-images.githubusercontent.com/57150778/222348567-a01a0dd6-6605-4f13-8053-05eee54af0c7.png" width=400>
+
+Upon sourcing this circuit and plotting the output versus input, the following plot is obtained:
+
+<img src="https://user-images.githubusercontent.com/57150778/222349610-cc70e1c2-aa35-45ef-8abf-02756e781f89.png" width=400>
+
+The characteristics are more centrally aligned. 
 
 
+</p>
+</details>
+
+<details><summary><h2> :book: 3: Switching Threshold Vm </h2></summary><p>
+
+Consider two scenarios: In the second one, pmos is bigger in size than nmos.
+The shape of the waveform is the same in both characteristics. This indicates that cmos inverter is  very robust device. i.e., when Vin is 0, op is high and vice versa for all cmos devices. Hence cmos logic is widely used for logic gate design.
+
+<b>Static behaviour evaluation : CMOS inverter robustness</b>
+
+<h3> Switching Threshold, Vm</h3>
+
+It is the point at which Vin = Vout. It is where the characteristic meets a 45' line. It is the value of Vin at which output switches value. Case 1- Vm is approximately 1V. Case2: Vm is approximately 1.2V
+At this point both pmos and nmos are in saturation region, thus there is high possibility of current flowing directly from power to ground. 
+
+<img src="https://user-images.githubusercontent.com/57150778/222351570-a81548bd-490a-4ee4-83ba-8e9fc0c1afde.png" width=600>
+
+Both pmos and nmos are turned on because Vg > Vth. At switching threshold, VGS = VDS. 
+
+Thus VGS>>VTH
+
+At this point, the same current is flowing through pmos and nmos
+
+Idsp = -Idsn
+
+<img src="https://user-images.githubusercontent.com/57150778/222351729-e4f86557-321a-4da0-b970-86a00786827f.png" width=550>
+
+</p>
+</details>
+
+<details><summary><h2> :book: 4: Static and dynamic simulation of cmos inverter </h2></summary><p>
+
+We vary pmos width as integral multiples of nmos width and check the variation of switching threshold value to see robustness of cmos inverter:
+
+![image](https://user-images.githubusercontent.com/57150778/222355763-b5bd313c-efab-4321-bd30-f220bc1a18e4.png)
+
+We take the following spice ckt with equal cmos and nmos widths:
+
+<img src="https://user-images.githubusercontent.com/57150778/222355957-c051a4de-91b2-49bd-bf95-719dc892a999.png" width=400>
+
+We source the ckt file:
+> source ckt_file
+> run
+> setplot
+> dc1
+> display
+
+<img src="https://user-images.githubusercontent.com/57150778/222356021-30e99aa9-19f7-4391-8517-f7999f1e5384.png" width=400>
+
+"plot out vs in"
+
+<img src="https://user-images.githubusercontent.com/57150778/222356132-ac18589d-5b62-4543-9773-2d3afc303b69.png" width=300>
+
+From this curve, Vm~0.98.
+
+We also do a delay calculation - finding variation of rise and fall delay with varying switching threshold. We change the input to a pulse to do a dynamic simulation, and do a transient analysis. 
+
+![image](https://user-images.githubusercontent.com/57150778/222356427-80a59998-8ccf-48a1-960f-19940067b818.png)
+
+In ngspice we run:
+> Source "ckt file"
+> "run"
+> "setplot"
+
+<img src="https://user-images.githubusercontent.com/57150778/222356670-78600dd8-881c-4c41-ab30-9efc35aca905.png" width=450>
+
+> "tran2"
+
+ <img src="https://user-images.githubusercontent.com/57150778/222356804-d2cf7eec-0592-427e-aeba-5ede71e06976.png" width=450>
+
+> "plot out vs time in"
+	
+<img src="https://user-images.githubusercontent.com/57150778/222356901-d0e3ec42-ac57-42f0-b9c0-801b89cf42c0.png" width=350>
+
+We calculate rise delay by difference in 50% values of ip rise and op rise waveforms"
+
+<img src="https://user-images.githubusercontent.com/57150778/222357670-00e28798-da53-4dc4-bfc6-6582c912b67e.png" width=400>
+
+<img src="https://user-images.githubusercontent.com/57150778/222357101-80c0d133-bbb2-40be-b1dc-0cdbeb0546b7.png" width=300>
+
+
+Similarly for op_fall delay…. 
+
+
+</p>
+</details>
+
+<details><summary><h2> :computer: L5- Labs to git clone vsdstdcelldesign </h2></summary><p>
+
+![image](https://user-images.githubusercontent.com/57150778/222360087-483cb309-32cd-489d-ab1f-d937350f2985.png)
+
+![image](https://user-images.githubusercontent.com/57150778/222360114-e68f55e7-00db-4a20-83dd-335bdcc520a9.png)
+
+![image](https://user-images.githubusercontent.com/57150778/222360139-3d1cd73f-e6b3-4921-b8a3-afcaa7e134ea.png)
+
+The inverter cell is viewed in magic layout.
+
+</p>
+</details>
+
+</p>
+</details>
+
+<details><summary><h1> D3_SK2- Inception of Layout and CMOS fabrication Process </h1></summary><p>
+
+<details><summary><h2> :book: L1- Create Active Regions </h2></summary><p>
+
+<h3> 16 Mask Process </h3>
+
+1) Selecting a substrate
+
+The complete design is fabricated on the substrate. There are many kinds of substrates available. But we go or the one used most commonly in mobile devices, chips, etc - p-type silicon substrate.
+Some of its properties include high resistivity, doping level of 10^15 per cm cube and orientation of 100.
+The doping level is to be maintained at a level below the well doping. 
+		
+<img src="https://user-images.githubusercontent.com/57150778/222362314-18263edd-596e-4208-9dfa-7a39e71e284f.png" width=550>
+	
+2) Create active region for transistors
+
+We create pockets for pmos and nmos devices. First step is to create an isolation between all the pockets so that the transistors don't interfere with functioning of each other.  First a SiO2 layer is grown which acts as an insulator. Next we deposit an 80nm layer of (Silicon Nitride) Si3N4. 
+Next to create the pockets, we deposit a 1um layer of photoresist. 
+Next we make Mask1 (masks are nothing but layout geometries in fabrication terms). Masks are used to protect certain areas of the photoresist while the other areas remain exposed to UV light. Thus we chemically wash out in developing solution the photoresist from certain regions.
+
+<img src="https://user-images.githubusercontent.com/57150778/222362487-b3dbf8f1-5963-45cc-8b00-46cfc0d10987.png" width=450>
+
+The resultant is:
+
+<img src="https://user-images.githubusercontent.com/57150778/222362575-84d20b9e-1f1d-4506-baab-a6ed00d802cc.png" width=400>
+		
+Next we remove the mask so that now if we do some deposition or some etching, the areas under the photoresist stay protected. 
+
+<img src="https://user-images.githubusercontent.com/57150778/222362669-9f5c2991-85b8-4f2e-8550-ada0060d3a75.png" width=400>
+
+Next we etch off the silicon Nitride:
+		
+<img src="https://user-images.githubusercontent.com/57150778/222362756-9086efaf-6179-4fdb-acb5-1ad11cfce3e7.png" width=400>
+		
+Finally we can remove the photoresist because the Si offers enough protection to SiO2 areas to grow the oxides on the other areas. When we put this into an oxidation furnace, the unprotected areas of SiO2 will grow. This creates isolation areas (divided by grown SiO2) and transistors can be isolated on either sides of it.
+		
+<img src="https://user-images.githubusercontent.com/57150778/222362863-025d2cbd-1732-403d-ade5-8ca212f93fe2.png" width=400>
+	
+
+This process is called "LOCOS" (Local Oxidation of Silicon)
+
+Next, the Si3N4 is stripped out in hot phosphoric acid- 
+		
+<img src="https://user-images.githubusercontent.com/57150778/222362991-4fa51c77-4de2-4734-b768-680feec8e441.png" width=400>
+
+
+</p>
+</details>
+
+<details><summary><h2> :book: L2- Formation of nwell and pwell </h2></summary><p>
+
+![image](https://user-images.githubusercontent.com/57150778/222365712-be957318-4205-48d1-afde-c7eb5468de4a.png)
+
+</p>
+</details>
+
+<details><summary><h2> :book: L3- Formation of gate terminal </h2></summary><p>
+
+![image](https://user-images.githubusercontent.com/57150778/222366272-b6357446-4187-4658-a2a8-e903c48d7be3.png)
+
+</p>
+</details>
+
+<details><summary><h2> :book: L4- Lightly Doped Drain (LDD) formation  </h2></summary><p>
+
+![image](https://user-images.githubusercontent.com/57150778/222367058-c8e37eb2-49f8-40c5-b15b-24713366ec64.png)
+
+</p>
+</details>
+
+<details><summary><h2> :book: L5- Source and Drain formation </h2></summary><p>
+
+![image](https://user-images.githubusercontent.com/57150778/222367432-83df9376-8275-4d6c-adf7-5839221c9742.png)
+
+</p>
+</details>
+
+
+<details><summary><h2> :book: L6- Local interconnection formation </h2></summary><p>
+
+![image](https://user-images.githubusercontent.com/57150778/222367793-8c5f6451-18d6-44a2-b1e9-c4def08c41c6.png)
+
+</p>
+</details>
+
+<details><summary><h2> :book: L7- Higher Level Metal Formation </h2></summary><p>
+
+![image](https://user-images.githubusercontent.com/57150778/222368318-bc8f3036-5c4f-4c00-a322-4a60fe446ba2.png)
 
 </p>
 </details>

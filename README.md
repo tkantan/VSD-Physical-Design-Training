@@ -1,4 +1,4 @@
-# VSD Physical Design Summary | Documentation
+# VSD Physical Design | Documentation
 <details><summary> <h1> D1 - Inception of open-source EDA, OpenLANE ans Sky130 PDK </summary><p>
 
 <details><summary> <h1> D1_SK1 - How to talk to computers </summary><p>

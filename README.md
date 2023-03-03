@@ -1037,7 +1037,7 @@ Transition time = time(slew_high_fall_thr) - time(slew_low_fall_thr)
 
 <details><summary> <h1> D3 - Design Library cell using magic Layout and ngspice characterization </summary><p>
 
-<details><summary> <h1> D1_SK1 - Labs for CMOS inverter ngspice simulation </summary><p>
+<details><summary> <h1> D3_SK1 - Labs for CMOS inverter ngspice simulation </summary><p>
 
 <details><summary><h2> :computer: L0: IO Placer Revision </h2></summary><p>		
 

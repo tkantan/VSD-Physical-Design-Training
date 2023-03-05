@@ -1315,9 +1315,125 @@ Next, the Si3N4 is stripped out in hot phosphoric acid-
 </p>
 </details>
 
+<details><summary><h2> :computer: L8- Lab intro to Sky130 basic layers layout and LEF using inverter </h2></summary><p>
+
+![image](https://user-images.githubusercontent.com/57150778/222956586-38b4cc83-ba70-42e0-a2f1-55fe7dbfff4a.png)
+
+</p>
+</details>
+
+<details><summary><h2> :computer: L9 - Lab Steps to create std cell layout and extract spice netlist </h2></summary><p>
+
+![image](https://user-images.githubusercontent.com/57150778/222956733-9c1a658d-5cde-4feb-8f06-3dcf82f1de93.png)
+
+</p>
+</details>
+
+
+
+</p>
+</details>
+
+<details><summary><h1> D3_SK3 - Sky130 Tech file labs </h1></summary><p>
+
+<details><summary><h2> :computer: L1 - Lab steps to create final spice deck using Sky130 tech </h2></summary><p>
+
+![image](https://user-images.githubusercontent.com/57150778/222957131-71371afd-cd39-40ae-917a-0d682bb8744d.png)
+
+</p>
+</details>
+
+<details><summary><h2> :computer: L2 - Lab steps to characterize inverter using sky130 model files </h2></summary><p>
+
+![image](https://user-images.githubusercontent.com/57150778/222957459-2f49ea63-3f25-4f12-a6a3-dba289a953e4.png)
+
+</p>
+</details>
+
 </p>
 </details>
 
 </p>
 </details>
 
+
+<details><summary><h1> D4 - Pre-layout timing analysis and importance of good clock tree </h1></summary><p>
+
+
+<details><summary><h1>  D4_SK1 - Timing modelling using delay tables <h1></summary><p>
+
+<details><summary><h2> :computer: L1 - Lab steps to convert grid info to track info  </h2></summary><p>
+
+![image](https://user-images.githubusercontent.com/57150778/222957681-00c0c2a7-e4d2-4e73-8733-b14f8323f438.png)
+
+
+</p>
+</details>
+
+<details><summary><h2> :computer: L2 -  Lab steps to convert magic layout to std cell LEF  </h2></summary><p>
+
+![image](https://user-images.githubusercontent.com/57150778/222957850-6ef1cd94-a682-4add-b88a-0ef9700348b7.png)
+
+</p>
+</details>
+
+
+<details><summary><h2> :computer: L3 -  Introduction to timing libs and steps to include new cell in synthesis  </h2></summary><p>
+
+![image](https://user-images.githubusercontent.com/57150778/222958004-2f0f97d2-0ee6-4ca6-9147-881c18aee137.png)
+
+</p>
+</details>
+
+<details><summary><h2> :book: L4 - Introduction to delay tables  </h2></summary><p>
+
+![image](https://user-images.githubusercontent.com/57150778/222958104-888966cd-36ac-4ff8-915a-99da9742b0a1.png)
+
+</p>
+</details>
+
+<details><summary><h2> :book: L5,6 - Delay tables usage </h2></summary><p>
+
+![image](https://user-images.githubusercontent.com/57150778/222958157-3fcac65c-e4f5-4efc-af86-1bc6128276f3.png)
+
+</p>
+</details>
+
+<details><summary><h2> :computer: L7 - Lab steps to configure synthesis settings to fix slack and include vsdinv </h2></summary><p>
+
+![image](https://user-images.githubusercontent.com/57150778/222958221-cabe693d-368e-49bc-91e9-fcbe625914af.png)
+
+</p>
+</details>
+
+</p>
+</details>
+
+<details><summary><h1> D4_SK2 - Timing Analysis with ideal clock using openSTA </h1></summary><p>
+
+<details><summary><h2> :book: L1 - Setup timing analysis and introduction to flip flop setup time </h2></summary><p>
+
+![image](https://user-images.githubusercontent.com/57150778/222958417-0bf9b697-4180-435a-ac36-f949f7f58a98.png)
+
+</p>
+</details>
+
+<details><summary><h2> :book: L2 - Introduction to clock jitter and uncertainty </h2></summary><p>
+
+![image](https://user-images.githubusercontent.com/57150778/222958457-1beacdeb-937b-49ce-94bb-f9ed907e5665.png)
+
+</p>
+</details>
+
+<details><summary><h2> :computer: L3 - Lab steps to configure OpenSTA for post-synth timing analysis </h2></summary><p>
+
+![image](https://user-images.githubusercontent.com/57150778/222958494-1ad013fa-7b94-4f74-8358-448a8f4cd89d.png)
+
+</p>
+</details>
+
+</p>
+</details>
+
+</p>
+</details>

@@ -1432,8 +1432,41 @@ Next, the Si3N4 is stripped out in hot phosphoric acid-
 </p>
 </details>
 
+<details><summary><h2> :computer: L4 -  Lab steps to optimize synthesis to reduce setup violations </h2></summary><p>
+
+![image](https://user-images.githubusercontent.com/57150778/223191863-d3cd2a8b-4273-449d-9fb5-b3365e360776.png)
+
 </p>
 </details>
 
+<details><summary><h2> :computer: L5 -  Lab Steps to do basic timing ECO </h2></summary><p>
+
+![image](https://user-images.githubusercontent.com/57150778/223192101-1cb0bb10-283d-4d68-b4e5-7a7cb195ef8a.png)
+
+</p>
+</details>
+
+</p>
+</details>
+	
+<details><summary><h1> D4_SK3 Clock Tree Synthesis TritonCTS and signal integrity </h1></summary><p>
+
+<details><summary><h2> :book: L1 -  Clock Tree Routing and Buffering using H-Tree algorithm </h2></summary><p>
+
+![image](https://user-images.githubusercontent.com/57150778/223192607-9367792c-808f-481f-b4b0-0e3ebbd112ed.png)
+
+</p>
+</details>
+
+<details><summary><h2> :book: L2 -  Crosstalk and clock net shielding </h2></summary><p>
+
+![image](https://user-images.githubusercontent.com/57150778/223192778-912b5612-2d4d-4541-9fb8-a7aff07cdf0d.png)
+
+</p>
+</details>
+	
+</p>
+</details>
+	
 </p>
 </details>

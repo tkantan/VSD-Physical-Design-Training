@@ -1449,7 +1449,7 @@ Next, the Si3N4 is stripped out in hot phosphoric acid-
 </p>
 </details>
 	
-<details><summary><h1> D4_SK3 Clock Tree Synthesis TritonCTS and signal integrity </h1></summary><p>
+<details><summary><h1> D4_SK3 - Clock Tree Synthesis TritonCTS and signal integrity </h1></summary><p>
 
 <details><summary><h2> :book: L1 -  Clock Tree Routing and Buffering using H-Tree algorithm </h2></summary><p>
 
@@ -1464,9 +1464,170 @@ Next, the Si3N4 is stripped out in hot phosphoric acid-
 
 </p>
 </details>
-	
+
+<details><summary><h2> :computer: L3 -  Lab steps to run CTS using TritonCTS </h2></summary><p>
+
+![image](https://user-images.githubusercontent.com/57150778/224626051-55180d76-2507-4de0-a29d-dd282fa1d15a.png)
+
 </p>
 </details>
 	
+
+<details><summary><h2> :computer: L4 -  Lab steps to verify CTS Runs </h2></summary><p>
+
+![image](https://user-images.githubusercontent.com/57150778/224626292-439aec25-fe67-4f17-9b0b-b75bdc9edccc.png)
+
+</p>
+</details>
+	
+		
+	
+</p>
+</details>
+
+<details><summary><h1> D4_SK4 - Timing Analysis with real clocks using OpenSTA </h1></summary><p>
+
+
+<details><summary><h2> :book: L1 -  Setup timing analysis using real clocks </h2></summary><p>
+
+![image](https://user-images.githubusercontent.com/57150778/224627614-fd596464-a170-4fc6-aa3f-3b3e331646a8.png)
+
+</p>
+</details>
+
+
+<details><summary><h2> :book: L2 -  Hold timing analysis using real clocks </h2></summary><p>
+
+![image](https://user-images.githubusercontent.com/57150778/224627733-516e6cd3-512d-427a-a8d0-0caeb245779f.png)
+
+</p>
+</details>
+
+
+<details><summary><h2> :computer: L3 -  Lab steps to analyze timing with real clocks using OpenSTA </h2></summary><p>
+
+![image](https://user-images.githubusercontent.com/57150778/224627914-093a6732-48e1-44db-a931-8e33867a8bf1.png)
+
+
+</p>
+</details>
+
+
+<details><summary><h2> :computer: L4 -  Lab steps to execute OpenSTA with right timing libraries and CTS assignment </h2></summary><p>
+
+![image](https://user-images.githubusercontent.com/57150778/224628218-ebddcf4f-9aa2-4830-b320-8657f569a779.png)
+
+</p>
+</details>
+
+
+
+<details><summary><h2> :computer: L5 -  Lab steps to observe impact of bigger CTS buffers on setup and hold timing </h2></summary><p>
+
+![image](https://user-images.githubusercontent.com/57150778/224628399-40ee03d2-73f8-46ca-a9e2-5b85b910d51e.png)
+
+</p>
+</details>
+
+</p>
+</details>
+	
+</p>
+</details>
+
+
+<details><summary><h1> D5 - Final steps for RTL2GDS using TritonRoute and openSTA </h1></summary><p>
+
+
+<details><summary><h1> D5_SK1 - Routing and Design Rule Check (DRC) </h1></summary><p>
+
+<details><summary><h2> :book: L1 - Introduction to Maze routing and Lee's Algorithm </h2></summary><p>
+
+![image](https://user-images.githubusercontent.com/57150778/224629168-bcf0e57a-1da9-4770-89cc-da8b1aea8519.png)
+	
+</p>
+</details>
+
+<details><summary><h2> :book: L2 - Lee's Algorithm Conclusion </h2></summary><p>
+
+![image](https://user-images.githubusercontent.com/57150778/224629308-d44bf6b6-2427-4865-937d-9314b3fcdc74.png)
+
+</p>
+</details>
+
+
+<details><summary><h2> :book: L3 - Design Rule Checks </h2></summary><p>
+
+![image](https://user-images.githubusercontent.com/57150778/224629457-6ca33a7f-a230-404e-92c6-54c0efc68ab9.png)
+
+</p>
+</details>
+
+</p>
+</details>
+
+<details><summary><h1> D5_SK2 - Power Distribution Networn and routing </h1></summary><p>
+
+<details><summary><h2> :computer: L1 - Labs to build power distribution network </h2></summary><p>
+
+![image](https://user-images.githubusercontent.com/57150778/224629663-c01a3412-32f0-46bb-a226-d3d1c5febcf4.png)
+
+</p>
+</details>
+
+
+<details><summary><h2> :computer: L2 - Lab steps from power straps to std cell power </h2></summary><p>
+
+![image](https://user-images.githubusercontent.com/57150778/224629938-aeeffda0-8341-4dcf-b86e-b8e0ced9c4fb.png)
+
+</p>
+</details>
+
+
+<details><summary><h2> :computer: L3 - Basics of global and detail routing using TritonRoute </h2></summary><p>
+
+![image](https://user-images.githubusercontent.com/57150778/224630310-a8f51204-b35e-465e-90a5-a7b8543db057.png)
+
+</p>
+</details>
+
+	
+</p>
+</details>
+
+<details><summary><h1> D5_SK3 - TritonRoute features </h1></summary><p>
+
+<details><summary><h2> :book: L1 - TritonRoute feature 1 - Honors pre-processed route guides </h2></summary><p>
+
+![image](https://user-images.githubusercontent.com/57150778/224635148-5da47daf-e9bc-42db-96f6-030cafbd5358.png)
+
+</p>
+</details>
+
+
+<details><summary><h2> :book: L2 - TritonRoute Feature 2&3 - Inter-guide connectivity and intra- and inter-layer routing </h2></summary><p>
+
+![image](https://user-images.githubusercontent.com/57150778/224635293-36a41438-1a4e-4e66-8e0a-e5fb1c2b9781.png)
+
+</p>
+</details>
+
+<details><summary><h2> :book: L3 - TritonRoute method to handle connectivity </h2></summary><p>
+
+![image](https://user-images.githubusercontent.com/57150778/224635428-448970ac-aeed-4008-bb07-b70eff461670.png)
+
+</p>
+</details>
+
+<details><summary><h2> :computer: L4 - Routing topology algorithm and final files post-route </h2></summary><p>
+
+![image](https://user-images.githubusercontent.com/57150778/224635630-a38e7aa3-67ac-41c2-8714-58727052d2aa.png)
+
+</p>
+</details>
+
+</p>
+</details>
+
 </p>
 </details>

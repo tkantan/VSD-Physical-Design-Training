@@ -1350,6 +1350,51 @@ Next, the Si3N4 is stripped out in hot phosphoric acid-
 </p>
 </details>
 
+
+<details><summary><h2> :computer: L4 - Lab introduction to sky130 pdk's and steps to download labs </h2></summary><p>
+
+![image](https://user-images.githubusercontent.com/57150778/225559419-64e4c1d9-33ef-48cd-8a8b-8f15e4446574.png)
+
+</p>
+</details>
+
+<details><summary><h2> :computer: L5 - Lab introduction to magic and steps to load sky130A tech rules </h2></summary><p>
+
+![image](https://user-images.githubusercontent.com/57150778/225559770-bed582fd-7f5f-4eae-b69c-73c0de42cdcc.png)
+
+</p>
+</details>
+
+
+<details><summary><h2> :computer: L6 - Lab exercise to fix poly.9 error in sky130 tech file </h2></summary><p>
+
+![image](https://user-images.githubusercontent.com/57150778/225560280-73da678a-1bc6-405d-a9dd-19be6c7cdbbb.png)
+
+</p>
+</details>
+
+
+<details><summary><h2> :computer: L7 - Lab exercise to implement poly resistor and spacing to diff and tap </h2></summary><p>
+
+![image](https://user-images.githubusercontent.com/57150778/225560491-de820a29-16c4-4673-8d06-c37c4644eb48.png)
+
+</p>
+</details>
+
+<details><summary><h2> :computer: L8 - Lab challenge exercise to describe DRC error as geometrical construct </h2></summary><p>
+
+![image](https://user-images.githubusercontent.com/57150778/225560752-1f89782d-7142-49d2-a46b-8362dd117a3e.png)
+
+</p>
+</details>
+
+
+<details><summary><h2> :computer: L9 - Lab challenge to find missing or incorrect rules and fix them </h2></summary><p>
+
+![image](https://user-images.githubusercontent.com/57150778/225561022-ff765c55-864e-4f32-9e2a-c952d05176e7.png)
+
+</p>
+</details>
 </p>
 </details>
 
